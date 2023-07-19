@@ -61,7 +61,7 @@ namespace ShopaholikWPF.Model
 
                 entity.Property(e => e.Items).IsUnicode(false);
 
-                entity.Property(e => e.Price).HasColumnType("money");
+                //entity.Property(e => e.Price).HasColumnType("money");
 
                 entity.Property(e => e.TransactionTime).HasColumnType("datetime");
             });
@@ -97,7 +97,7 @@ namespace ShopaholikWPF.Model
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Price).HasColumnType("money");
+                //entity.Property(e => e.Price).HasColumnType();
             });
 
             OnModelCreatingPartial(modelBuilder);

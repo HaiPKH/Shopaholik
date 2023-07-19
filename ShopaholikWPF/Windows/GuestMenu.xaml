@@ -1,0 +1,17 @@
+﻿<Window x:Class="ShopaholikWPF.Windows.GuestMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShopaholikWPF.Windows"
+        mc:Ignorable="d"
+        Title="GuestMenu" Height="450" Width="800">
+    <Grid>
+        <Label Content="Shopaholik" HorizontalAlignment="Center" Margin="0,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.512,0.533"/>
+        <Button x:Name="btnGuestLogout" Content="Logout" HorizontalAlignment="Left" Margin="437,247,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="btnGuestLogout_Click" Width="104" Height="35"/>
+        <Button x:Name="btnMessage" Content="Messages" HorizontalAlignment="Left" Margin="258,247,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.52,0.563" Height="35" Width="104" Click="btnMessage_Click"/>
+        <Button x:Name="btnCart" Content="View Cart" HorizontalAlignment="Left" Margin="258,164,0,0" VerticalAlignment="Top" Width="104" Height="35" Click="btnCart_Click"/>
+        <Button x:Name="btnHist" Content="Purchase History" HorizontalAlignment="Left" Margin="437,164,0,0" VerticalAlignment="Top" Height="35" Width="104" Click="btnHist_Click"/>
+        <Button x:Name="btnBrowse" Content="Browse Store" HorizontalAlignment="Left" Margin="330,92,0,0" VerticalAlignment="Top" Width="143" Height="36" Click="btnBrowse_Click"/>
+    </Grid>
+</Window>

@@ -24,7 +24,7 @@ namespace ShopaholikWPF.Windows
         HubConnection connection;
         public Stock()
         {
-            InitializeComponent();
+            InitializeComponent();  
             connection = new HubConnectionBuilder()
                 .WithUrl("http://localhost:5176/shopaholikhub")
                 .Build();
@@ -36,46 +36,50 @@ namespace ShopaholikWPF.Windows
                     connection.StartAsync();
                 }
             });
-            connection.On<CartItem>("itemupdate",(cart)
-                => {
-                    Dispatcher.BeginInvoke((Action)(() =>
+            connection.On<CartItem>("itemupdate", (cart)
+                 =>
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
 
-                    {
+                {
                         //MessageBox.Show("A message was received");
                         ShopaholikContext context = new ShopaholikContext();
-                        lvProducts.ItemsSource = context.Products.ToList();
-                    }));
-                });
+                    lvProducts.ItemsSource = context.Products.ToList();
+                }));
+            });
             connection.On<Product>("addproduct", (product)
-                 => {
-                     Dispatcher.BeginInvoke((Action)(() =>
+                 =>
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
 
-                     {
-                        //MessageBox.Show("A message was received");
-                        ShopaholikContext context = new ShopaholikContext();
-                        lvProducts.ItemsSource = context.Products.ToList();
-                     }));
-                 });
+                {
+                         //MessageBox.Show("A message was received");
+                         ShopaholikContext context = new ShopaholikContext();
+                    lvProducts.ItemsSource = context.Products.ToList();
+                }));
+            });
             connection.On<Product>("updateproduct", (product)
-                 => {
-                     Dispatcher.BeginInvoke((Action)(() =>
+                 =>
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
 
-                     {
+                {
                          //MessageBox.Show("A message was received");
                          ShopaholikContext context = new ShopaholikContext();
-                         lvProducts.ItemsSource = context.Products.ToList();
-                     }));
-                 });
+                    lvProducts.ItemsSource = context.Products.ToList();
+                }));
+            });
             connection.On<Product>("deleteproduct", (product)
-                 => {
-                     Dispatcher.BeginInvoke((Action)(() =>
+                 =>
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
 
-                     {
+                {
                          //MessageBox.Show("A message was received");
                          ShopaholikContext context = new ShopaholikContext();
-                         lvProducts.ItemsSource = context.Products.ToList();
-                     }));
-                 });
+                    lvProducts.ItemsSource = context.Products.ToList();
+                }));
+            });
             LoadProducts();
         }
         private void LoadProducts()
@@ -150,25 +154,65 @@ namespace ShopaholikWPF.Windows
         }
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            Product product = lvProducts.SelectedItem as Product;
+            this.connection.InvokeAsync("DeleteProduct", product);
+            txtProdName.Clear();
+            txtUnitsInStock.Clear();
+            txtPrice.Clear();
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                Product product = lvProducts.SelectedItem as Product;
+                if (txtProdName.Text != product.Name && GetProductByName(txtProdName.Text) != null)
+                {
+                    MessageBox.Show("Product name already existed.", "Warning");
+                    return;
+                }
+                product.Name = txtProdName.Text;
+                if (Convert.ToInt32(txtUnitsInStock.Text.ToString()) <= 0)
+                {
+                    MessageBox.Show("Quantity cannot be zero or negative", "Warning");
+                    return;
+                }
+                product.UnitsInStock = Convert.ToInt32(txtUnitsInStock.Text.ToString());
+                if (Convert.ToInt32(txtPrice.Text.ToString()) <= 0)
+                {
+                    MessageBox.Show("Price cannot be zero or negative", "Warning");
+                    return;
+                }
+                product.Price = Convert.ToInt32(txtPrice.Text.ToString());
+                this.connection.InvokeAsync("UpdateProduct", product);
+                LoadProducts();
+                txtProdName.Clear();
+                txtUnitsInStock.Clear();
+                txtPrice.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "An error occurred");
+            }
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-
+            AdminMenu adm = new AdminMenu();
+            Application.Current.MainWindow.Content = adm.Content;
+            Application.Current.MainWindow.Title = "Admin Menu";
         }
 
         private void lvProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Product product = lvProducts.SelectedItem as Product;
-            txtProdName.Text = product.Name;
-            txtUnitsInStock.Text = product.UnitsInStock.ToString();
-            txtPrice.Text = product.Price.ToString();
+            if (product != null)
+            {
+                txtProdName.Text = product.Name;
+                txtUnitsInStock.Text = product.UnitsInStock.ToString();
+                txtPrice.Text = product.Price.ToString();
+            }
+
         }
     }
 }

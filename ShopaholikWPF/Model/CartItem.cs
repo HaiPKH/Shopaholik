@@ -8,7 +8,7 @@ namespace ShopaholikWPF.Model
 {
     public class CartItem
     {
-        public string Name { get; set; } = null!;
+        public Product Product { get; set; } = null!;
         public int Quantity { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace ShopaholikServer.Hubs
                 ShopaholikContext context = new ShopaholikContext();
                 foreach (CartItem item in cart)
                 {
-                    Product product = context.Products.FirstOrDefault(p => p.Name == item.Name);
+                    Product product = context.Products.FirstOrDefault(p => p.Name == item.Product.Name);
                     if (product != null)
                     {
                         if (product.UnitsInStock - item.Quantity <= 0)

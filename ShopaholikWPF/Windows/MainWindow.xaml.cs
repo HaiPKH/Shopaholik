@@ -61,7 +61,27 @@ namespace ShopaholikWPF
 
         private void GuestLoginBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Account accountInput = new Account();
+            accountInput.Username = txtUsername.Text;
+            accountInput.Password = txtPassword.Password;
+            accountInput.Role = "guest";
+            var AccountDb = new ShopaholikContext();
+            bool userFound = false;
+            foreach (var account in AccountDb.Accounts.ToList())
+            {
+                if (accountInput.Username.Equals(account.Username) && accountInput.Password.Equals(account.Password) && accountInput.Role.Equals(account.Role.Trim()))
+                {
+                    GuestMenu gm = new GuestMenu();
+                    Application.Current.MainWindow.Content = gm.Content;
+                    Application.Current.MainWindow.Title = "Menu";
+                    Application.Current.Properties["Username"] = txtUsername.Text;
+                    userFound = true;
+                }
+            }
+            if (!userFound)
+            {
+                MessageBox.Show("Login failed!", "Warning");
+            }
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)

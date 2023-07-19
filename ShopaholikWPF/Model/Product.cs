@@ -8,6 +8,6 @@ namespace ShopaholikWPF.Model
         public int ProductId { get; set; }
         public string Name { get; set; } = null!;
         public int UnitsInStock { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
     }
 }
