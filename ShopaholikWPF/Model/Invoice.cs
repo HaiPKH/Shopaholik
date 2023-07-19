@@ -7,5 +7,7 @@ namespace ShopaholikWPF.Model
     {
         public decimal Price { get; set; }
         public DateTime TransactionTime { get; set; }
+        public string Items { get; set; } = null!;
+        public int Id { get; set; }
     }
 }

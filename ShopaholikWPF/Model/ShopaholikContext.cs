@@ -57,9 +57,9 @@ namespace ShopaholikWPF.Model
 
             modelBuilder.Entity<Invoice>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Invoice");
+
+                entity.Property(e => e.Items).IsUnicode(false);
 
                 entity.Property(e => e.Price).HasColumnType("money");
 
@@ -91,17 +91,13 @@ namespace ShopaholikWPF.Model
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Price).HasColumnType("money");
-
-                entity.Property(e => e.ProductId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("ProductID");
             });
 
             OnModelCreatingPartial(modelBuilder);
