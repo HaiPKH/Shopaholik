@@ -25,6 +25,8 @@ namespace ShopaholikServer.Hubs
                         if (product.UnitsInStock - item.Quantity <= 0)
                         {
                             context.Products.Remove(product);
+                            context.SaveChanges();
+                            await Clients.All.SendAsync("itemupdate", cart);
                         }
                         else
                         {
@@ -52,6 +54,35 @@ namespace ShopaholikServer.Hubs
                 context.Products.Add(product);
                 context.SaveChanges();
                 await Clients.All.SendAsync("addproduct", product);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public async Task UpdateProduct(Product product)
+        {
+            try
+            {
+                ShopaholikContext context = new ShopaholikContext();
+                context.Entry<Product>(product).State = EntityState.Modified;
+                context.SaveChanges();
+                await Clients.All.SendAsync("updateproduct", product);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public async Task DeleteProduct(Product product)
+        {
+            try
+            {
+                ShopaholikContext context = new ShopaholikContext();
+                context.Products.Remove(product);
+                context.SaveChanges();
+                await Clients.All.SendAsync("deleteproduct", product);
             }
             catch (Exception ex)
             {

@@ -26,14 +26,13 @@ namespace ShopaholikWPF.Windows
 
         private void btnAdminCreate_Click(object sender, RoutedEventArgs e)
         {
-            Stock stock = new Stock();
-            Application.Current.MainWindow.Content = stock.Content;
-            Application.Current.MainWindow.Title = "Manage Stock";
         }
 
         private void btnStock_Click(object sender, RoutedEventArgs e)
         {
-
+            Stock stock = new Stock();
+            Application.Current.MainWindow.Content = stock.Content;
+            Application.Current.MainWindow.Title = "Manage Stock";
         }
 
         private void btnInvoice_Click(object sender, RoutedEventArgs e)

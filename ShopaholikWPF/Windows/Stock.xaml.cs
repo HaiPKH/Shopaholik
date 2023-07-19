@@ -56,6 +56,27 @@ namespace ShopaholikWPF.Windows
                         lvProducts.ItemsSource = context.Products.ToList();
                      }));
                  });
+            connection.On<Product>("updateproduct", (product)
+                 => {
+                     Dispatcher.BeginInvoke((Action)(() =>
+
+                     {
+                         //MessageBox.Show("A message was received");
+                         ShopaholikContext context = new ShopaholikContext();
+                         lvProducts.ItemsSource = context.Products.ToList();
+                     }));
+                 });
+            connection.On<Product>("deleteproduct", (product)
+                 => {
+                     Dispatcher.BeginInvoke((Action)(() =>
+
+                     {
+                         //MessageBox.Show("A message was received");
+                         ShopaholikContext context = new ShopaholikContext();
+                         lvProducts.ItemsSource = context.Products.ToList();
+                     }));
+                 });
+            LoadProducts();
         }
         private void LoadProducts()
         {
@@ -103,7 +124,7 @@ namespace ShopaholikWPF.Windows
                 Product product = GetProduct();
                 if (GetProductByName(product.Name) != null)
                 {
-                    throw new Exception("Room name already existed.");
+                    throw new Exception("Product already existed.");
                 }
                 if (product.Price <= 0)
                 {
@@ -144,7 +165,10 @@ namespace ShopaholikWPF.Windows
 
         private void lvProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Product product = lvProducts.SelectedItem as Product;
+            txtProdName.Text = product.Name;
+            txtUnitsInStock.Text = product.UnitsInStock.ToString();
+            txtPrice.Text = product.Price.ToString();
         }
     }
 }
