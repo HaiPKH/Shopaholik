@@ -43,14 +43,11 @@ namespace ShopaholikWPF.Windows
 
         }
 
-        private void btnMessage_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void btnGuestLogout_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow mw = new MainWindow();
+            Application.Current.MainWindow.Content = mw.Content;
+            Application.Current.MainWindow.Title = "Welcome to Shopaholik";
         }
     }
 }

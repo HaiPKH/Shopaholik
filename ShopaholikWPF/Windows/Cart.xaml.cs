@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,7 +27,6 @@ namespace ShopaholikWPF.Windows
         public Cart()
         {
             InitializeComponent();
-            InitializeComponent();
             connection = new HubConnectionBuilder()
             .WithUrl("http://localhost:5176/shopaholikhub")
             .Build();
@@ -38,6 +38,16 @@ namespace ShopaholikWPF.Windows
                     connection.StartAsync();
                 }
             });
+            int totalPrice = 0;
+            if (cartItems != null)
+            {
+                foreach (CartItem cartItem in cartItems)
+                {
+                    totalPrice += cartItem.Product.Price * cartItem.Quantity;
+                }
+                txtTotalPrice.Text = totalPrice.ToString();
+            }
+
             LoadItems();
         }
 
@@ -54,23 +64,77 @@ namespace ShopaholikWPF.Windows
 
         private void btnBuy_Click(object sender, RoutedEventArgs e)
         {
+            if (lvCartItems.ItemsSource != null && txtTotalPrice.Text != string.Empty)
+            {
+                this.connection.InvokeAsync("PurchaseItems", cartItems);
+                ShopaholikContext context = new ShopaholikContext();
+                Invoice invoice = new Invoice();
+                invoice.BuyerName = Application.Current.Properties["Username"] as string;
+                invoice.TransactionTime = DateTime.Now;
+                invoice.Price = int.Parse(txtTotalPrice.Text);
+                invoice.Items = JsonSerializer.Serialize(cartItems);
+                this.connection.InvokeAsync("AddInvoice", invoice);
+                Application.Current.Properties["CartItems"] = null;
+                cartItems.Clear();
+                lvCartItems.ItemsSource = null;
+                txtTotalPrice.Text = string.Empty;
+            }
+            else
+            {
+                MessageBox.Show("There are still empty fields", "Error");
+            }
 
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-
+            if (lvCartItems.ItemsSource != null && txtTotalPrice.Text != string.Empty)
+            {
+                CartItem item = lvCartItems.SelectedItem as CartItem;
+                CartItem cartItem = cartItems.FirstOrDefault(i => i.Product.Name == item.Product.Name);
+                if (cartItem != null)
+                {
+                    cartItem.Quantity = int.Parse(txtQuantity.Text);
+                }
+                else
+                {
+                    MessageBox.Show("Error");
+                }
+                LoadItems();
+                lvCartItems.Items.Refresh();
+                txtPrice.Clear();
+                txtQuantity.Clear();
+                txtProdName.Clear();
+            }
+            else
+            {
+                MessageBox.Show("No records found", "Error");
+            }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            if (lvCartItems.ItemsSource != null && txtTotalPrice.Text != string.Empty)
+            {
+                CartItem item = lvCartItems.SelectedItem as CartItem;
+                cartItems.Remove(item);
+                LoadItems();
+                lvCartItems.Items.Refresh();
+                txtPrice.Clear();
+                txtQuantity.Clear();
+                txtProdName.Clear();
+            }
+            else
+            {
+                MessageBox.Show("No records found", "Error");
+            }
         }
 
         private void txtQuantity_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
+                int totalPrice = 0;
                 CartItem item = lvCartItems.SelectedItem as CartItem;
                 if (Convert.ToInt32(txtQuantity.Text) >  item.Product.UnitsInStock)
                 {
@@ -82,6 +146,12 @@ namespace ShopaholikWPF.Windows
                     MessageBox.Show("The amount specified is invalid", "Error");
                     txtQuantity.Text = "1";
                 }
+                foreach (CartItem cartItem in cartItems)
+                {
+                    totalPrice += cartItem.Product.Price * cartItem.Quantity;
+                }
+                txtTotalPrice.Text = totalPrice.ToString();
+
             }
             catch (Exception ex)
             {
@@ -91,10 +161,18 @@ namespace ShopaholikWPF.Windows
 
         private void lvCartItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CartItem cartItem = lvCartItems.SelectedItem as CartItem;
-            txtProdName.Text = cartItem.Product.Name;
-            txtPrice.Text = cartItem.Product.Price.ToString();
-            txtQuantity.Text = cartItem.Quantity.ToString();
+            try
+            {
+                CartItem cartItem = lvCartItems.SelectedItem as CartItem;
+                txtProdName.Text = cartItem.Product.Name;
+                txtPrice.Text = cartItem.Product.Price.ToString();
+                txtQuantity.Text = cartItem.Quantity.ToString();
+            }
+            catch (Exception ex)
+            {
+                txtTotalPrice.Clear();
+            }
+
         }
     }
 }

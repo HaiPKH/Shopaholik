@@ -9,5 +9,6 @@ namespace ShopaholikWPF.Model
         public DateTime TransactionTime { get; set; }
         public string Items { get; set; } = null!;
         public int Id { get; set; }
+        public string BuyerName { get; set; }
     }
 }

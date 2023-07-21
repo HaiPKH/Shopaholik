@@ -28,6 +28,61 @@ namespace ShopaholikWPF.Windows
         public Store()
         {
             InitializeComponent();
+            connection = new HubConnectionBuilder()
+                .WithUrl("http://localhost:5176/shopaholikhub")
+                .Build();
+            connection.StartAsync().ContinueWith(task =>
+            {
+                if (task.Exception != null)
+                {
+                    MessageBox.Show(task.Exception + "\n" +task.Exception.StackTrace, "Warning");
+                    connection.StartAsync();
+                }
+            });
+            connection.On<CartItem>("itemupdate", (cart)
+                 =>
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
+
+                {
+                    //MessageBox.Show("A message was received");
+                    ShopaholikContext context = new ShopaholikContext();
+                    lvProducts.ItemsSource = context.Products.ToList();
+                }));
+            });
+            connection.On<Product>("addproduct", (product)
+                 =>
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
+
+                {
+                    //MessageBox.Show("A message was received");
+                    ShopaholikContext context = new ShopaholikContext();
+                    lvProducts.ItemsSource = context.Products.ToList();
+                }));
+            });
+            connection.On<Product>("updateproduct", (product)
+                 =>
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
+
+                {
+                    //MessageBox.Show("A message was received");
+                    ShopaholikContext context = new ShopaholikContext();
+                    lvProducts.ItemsSource = context.Products.ToList();
+                }));
+            });
+            connection.On<Product>("deleteproduct", (product)
+                 =>
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
+
+                {
+                    //MessageBox.Show("A message was received");
+                    ShopaholikContext context = new ShopaholikContext();
+                    lvProducts.ItemsSource = context.Products.ToList();
+                }));
+            });
             LoadProducts();
         }
         private void LoadProducts()
@@ -65,19 +120,26 @@ namespace ShopaholikWPF.Windows
                 cartItem.Product = lvProducts.SelectedItem as Product;
                 cartItem.Quantity = int.Parse(txtQuantity.Text);
                 CartItem item = cartItems.FirstOrDefault(item => item.Product.Name == cartItem.Product.Name);
-                if (item != null)
+                if (item != null && item.Quantity < cartItem.Product.UnitsInStock)
                 {
+                    lbStatus.Foreground = new SolidColorBrush(Colors.Green);
                     item.Quantity += cartItem.Quantity;
                     lbStatus.Content = "Successfully updated to cart";
                 }
+                else if (item != null && item.Quantity == cartItem.Product.UnitsInStock)
+                {
+                    lbStatus.Foreground = new SolidColorBrush(Colors.Red);
+                    lbStatus.Content = "Quantity exceeded max amount";
+                }
                 else
                 {
+                    lbStatus.Foreground = new SolidColorBrush(Colors.Green);
                     cartItems.Add(cartItem);
                     lbStatus.Content = "Successfully added to cart";
 
                 }
             }
-            catch(FormatException ex)
+            catch (FormatException ex)
             {
                 MessageBox.Show("The amount specified is invalid", "Error");
                 txtQuantity.Text = "1";
@@ -88,9 +150,13 @@ namespace ShopaholikWPF.Windows
         private void lvProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Product product = lvProducts.SelectedItem as Product;
-            txtProdName.Text = product.Name;
-            txtPrice.Text = product.Price.ToString();
-            txtQuantity.Text = "1";
+            if (product != null)
+            {
+                txtProdName.Text = product.Name;
+                txtPrice.Text = product.Price.ToString();
+                txtQuantity.Text = "1";
+            }
+
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

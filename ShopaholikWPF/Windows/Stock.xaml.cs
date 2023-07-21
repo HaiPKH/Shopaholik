@@ -24,7 +24,7 @@ namespace ShopaholikWPF.Windows
         HubConnection connection;
         public Stock()
         {
-            InitializeComponent();  
+            InitializeComponent();
             connection = new HubConnectionBuilder()
                 .WithUrl("http://localhost:5176/shopaholikhub")
                 .Build();
@@ -36,15 +36,15 @@ namespace ShopaholikWPF.Windows
                     connection.StartAsync();
                 }
             });
-            connection.On<CartItem>("itemupdate", (cart)
+            connection.On<List<CartItem>>("itemupdate", (cart)
                  =>
             {
                 Dispatcher.BeginInvoke((Action)(() =>
 
                 {
-                        //MessageBox.Show("A message was received");
-                        ShopaholikContext context = new ShopaholikContext();
+                    ShopaholikContext context = new ShopaholikContext();
                     lvProducts.ItemsSource = context.Products.ToList();
+                    lvProducts.Items.Refresh();
                 }));
             });
             connection.On<Product>("addproduct", (product)
@@ -53,9 +53,10 @@ namespace ShopaholikWPF.Windows
                 Dispatcher.BeginInvoke((Action)(() =>
 
                 {
-                         //MessageBox.Show("A message was received");
-                         ShopaholikContext context = new ShopaholikContext();
+                    ShopaholikContext context = new ShopaholikContext();
                     lvProducts.ItemsSource = context.Products.ToList();
+                    lvProducts.Items.Refresh();
+
                 }));
             });
             connection.On<Product>("updateproduct", (product)
@@ -64,9 +65,10 @@ namespace ShopaholikWPF.Windows
                 Dispatcher.BeginInvoke((Action)(() =>
 
                 {
-                         //MessageBox.Show("A message was received");
-                         ShopaholikContext context = new ShopaholikContext();
+                    ShopaholikContext context = new ShopaholikContext();
                     lvProducts.ItemsSource = context.Products.ToList();
+                    lvProducts.Items.Refresh();
+
                 }));
             });
             connection.On<Product>("deleteproduct", (product)
@@ -75,9 +77,10 @@ namespace ShopaholikWPF.Windows
                 Dispatcher.BeginInvoke((Action)(() =>
 
                 {
-                         //MessageBox.Show("A message was received");
-                         ShopaholikContext context = new ShopaholikContext();
+                    ShopaholikContext context = new ShopaholikContext();
                     lvProducts.ItemsSource = context.Products.ToList();
+                    lvProducts.Items.Refresh();
+
                 }));
             });
             LoadProducts();
@@ -155,10 +158,18 @@ namespace ShopaholikWPF.Windows
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             Product product = lvProducts.SelectedItem as Product;
-            this.connection.InvokeAsync("DeleteProduct", product);
-            txtProdName.Clear();
-            txtUnitsInStock.Clear();
-            txtPrice.Clear();
+            if (product != null)
+            {
+                this.connection.InvokeAsync("DeleteProduct", product);
+                txtProdName.Clear();
+                txtUnitsInStock.Clear();
+                txtPrice.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Nothing to delete", "Error");
+            }
+
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
@@ -212,7 +223,6 @@ namespace ShopaholikWPF.Windows
                 txtUnitsInStock.Text = product.UnitsInStock.ToString();
                 txtPrice.Text = product.Price.ToString();
             }
-
         }
     }
 }

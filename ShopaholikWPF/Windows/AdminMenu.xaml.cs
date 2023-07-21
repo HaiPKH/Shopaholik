@@ -37,19 +37,24 @@ namespace ShopaholikWPF.Windows
 
         private void btnInvoice_Click(object sender, RoutedEventArgs e)
         {
-
+            Invoices invoices = new Invoices();
+            Application.Current.MainWindow.Content = invoices.Content;
+            Application.Current.MainWindow.Title = "View Invoices";
         }
 
-        private void btnMessage_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void btnAdminLogout_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mw = new MainWindow();
             Application.Current.MainWindow.Content = mw.Content;
             Application.Current.MainWindow.Title = "Welcome to Shopaholik";
+        }
+
+        private void btnIncome_Click(object sender, RoutedEventArgs e)
+        {
+            Income inc = new Income();
+            Application.Current.MainWindow.Content = inc.Content;
+            Application.Current.MainWindow.Title = "Income Chart";
         }
     }
 }

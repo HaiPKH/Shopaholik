@@ -1,0 +1,44 @@
+﻿<Window x:Class="ShopaholikWPF.Windows.PurchaseHistory"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShopaholikWPF.Windows"
+        mc:Ignorable="d"
+        Title="PurchaseHistory" Height="450" Width="800">
+    <Grid>
+        <StackPanel Orientation="Horizontal"  
+                            HorizontalAlignment="Left" Margin="117,310,0,-43" Width="390">
+            <Button x:Name="btnDelete"  Width="80" Content="Delete" 
+                            Click="btnDelete_Click" Height="21" Margin="5,5,5,0"/>
+            <Button x:Name="btnBack" Content="Back to Menu" Width="80" Height="21" Margin="5,5,5,0"
+                            Click="btnBack_Click"/>
+        </StackPanel>
+        <ListView Margin="0,0,400,56" Name="lvInvoices" SelectionChanged="lvInvoices_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Transaction Time" Width="150" 
+                                    DisplayMemberBinding="{Binding Path=TransactionTime}"/>
+                    <GridViewColumn Header="Buyer's Name" Width="150"
+                                    DisplayMemberBinding="{Binding Path=BuyerName}"/>
+                    <GridViewColumn Header="Total Price" Width="100"
+                                    DisplayMemberBinding="{Binding Path=Price}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Label Content="Showing" HorizontalAlignment="Left" Margin="492,383,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.549"/>
+        <TextBox x:Name="txtRecordsNum" HorizontalAlignment="Left" Margin="553,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Records" HorizontalAlignment="Left" Margin="678,383,0,0" VerticalAlignment="Top"/>
+        <ListView x:Name="lvItems" Margin="400,0,0,56">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Product Name" Width="150" 
+                                    DisplayMemberBinding="{Binding Path=Product.Name}"/>
+                    <GridViewColumn Header="Quantity" Width="100"
+                                    DisplayMemberBinding="{Binding Path=Quantity}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>

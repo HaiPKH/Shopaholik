@@ -16,6 +16,7 @@ namespace ShopaholikServer.Hubs
         {
             try
             {
+                MessageBox.Show("Purchase protocol begin", "Log");
                 ShopaholikContext context = new ShopaholikContext();
                 foreach (CartItem item in cart)
                 {
@@ -26,19 +27,17 @@ namespace ShopaholikServer.Hubs
                         {
                             context.Products.Remove(product);
                             context.SaveChanges();
-                            await Clients.All.SendAsync("itemupdate", cart);
                         }
                         else
                         {
-                            product.UnitsInStock = product.UnitsInStock - item.Quantity;
+                            product.UnitsInStock -= item.Quantity;
                             context.Entry<Product>(product).State = EntityState.Modified;
                             context.SaveChanges();
-                            await Clients.All.SendAsync("itemupdate", cart);
                         }
 
                     }
                 }
-
+                await Clients.All.SendAsync("itemupdate", cart);
             }
             catch (Exception ex)
             {
@@ -83,6 +82,21 @@ namespace ShopaholikServer.Hubs
                 context.Products.Remove(product);
                 context.SaveChanges();
                 await Clients.All.SendAsync("deleteproduct", product);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public async Task AddInvoice(Invoice invoice)
+        {
+            try
+            {
+                ShopaholikContext context = new ShopaholikContext();
+                context.Invoices.Add(invoice);
+                context.SaveChanges();
+                await Clients.All.SendAsync("addinvoice", invoice);
             }
             catch (Exception ex)
             {

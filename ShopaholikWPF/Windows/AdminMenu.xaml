@@ -8,11 +8,10 @@
         Title="AdminMenu" Height="450" Width="800">
     <Grid>
         <Label Content="Shopaholik(Admin)" HorizontalAlignment="Center" Margin="0,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.512,0.533"/>
-        <Button x:Name="btnAdminLogout" Content="Logout" HorizontalAlignment="Left" Margin="433,268,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.633" Width="104" Height="35" Click="btnAdminLogout_Click"/>
+        <Button x:Name="btnAdminLogout" Content="Logout" HorizontalAlignment="Center" Margin="0,269,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.633" Width="104" Height="35" Click="btnAdminLogout_Click"/>
         <Button x:Name="btnStock" Content="Manage Stock" HorizontalAlignment="Left" Margin="264,126,0,0" VerticalAlignment="Top" Width="104" Height="35" Click="btnStock_Click"/>
         <Button x:Name="btnInvoice" Content="View Invoices" HorizontalAlignment="Left" Margin="433,126,0,0" VerticalAlignment="Top" Height="35" Width="104" Click="btnInvoice_Click" />
-        <Button x:Name="btnIncome" Content="View Income" HorizontalAlignment="Left" Margin="264,195,0,0" VerticalAlignment="Top" Height="35" Width="104"/>
-        <Button x:Name="btnMessage" Content="Messages" HorizontalAlignment="Left" Margin="433,195,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="35" Width="104" Click="btnMessage_Click"/>
-        <Button x:Name="btnAdminCreate" Content="Create new Admin" HorizontalAlignment="Left" Margin="264,268,0,0" VerticalAlignment="Top" Height="35" Width="104" Click="btnAdminCreate_Click"/>
+        <Button x:Name="btnIncome" Content="View Income" HorizontalAlignment="Left" Margin="264,195,0,0" VerticalAlignment="Top" Height="35" Width="104" Click="btnIncome_Click"/>
+        <Button x:Name="btnAdminCreate" Content="Create new Admin" HorizontalAlignment="Left" Margin="433,195,0,0" VerticalAlignment="Top" Height="35" Width="104" Click="btnAdminCreate_Click"/>
     </Grid>
 </Window>

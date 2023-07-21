@@ -15,10 +15,12 @@
             <TextBox x:Name="txtPrice" TextWrapping="Wrap" IsReadOnly="True" Width="285" Height="28"/>
             <Label Content="Quantity"/>
             <TextBox x:Name="txtQuantity" TextWrapping="Wrap"  Width="285" Height="28" TextChanged="txtQuantity_TextChanged"/>
-            <Label x:Name="lbStatus" Content="" Foreground="#FF0E6F09"/>
+            <Label Content="Total Price"/>
+            <TextBox x:Name="txtTotalPrice" IsReadOnly="True" TextWrapping="Wrap"  Width="285" Height="28" />
+            <Label x:Name="lbStatus" Content=""/>
         </StackPanel>
         <StackPanel Orientation="Horizontal"  
-                            HorizontalAlignment="Left" Margin="0,187,0,202" Width="334">
+                            HorizontalAlignment="Left" Margin="0,258,0,135" Width="334">
             <Button x:Name="btnBuy"  Width="77" Content="Purchase" 
                             Height="21" Click="btnBuy_Click" />
             <Button x:Name="btnUpdate" Width="80"  Content="Update"

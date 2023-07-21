@@ -15,7 +15,7 @@
             <TextBox x:Name="txtPrice" TextWrapping="Wrap" IsReadOnly="True" Width="285" Height="28"/>
             <Label Content="Quantity"/>
             <TextBox x:Name="txtQuantity" TextWrapping="Wrap"  Width="285" Height="28" TextChanged="txtQuantity_TextChanged"/>
-            <Label x:Name="lbStatus" Content="" Foreground="#FF0E6F09"/>
+            <Label x:Name="lbStatus" Content=""/>
 
         </StackPanel>
         <StackPanel Orientation="Horizontal"  

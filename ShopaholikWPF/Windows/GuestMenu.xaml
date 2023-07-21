@@ -9,9 +9,8 @@
     <Grid>
         <Label Content="Shopaholik" HorizontalAlignment="Center" Margin="0,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.512,0.533"/>
         <Button x:Name="btnGuestLogout" Content="Logout" HorizontalAlignment="Left" Margin="437,247,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="btnGuestLogout_Click" Width="104" Height="35"/>
-        <Button x:Name="btnMessage" Content="Messages" HorizontalAlignment="Left" Margin="258,247,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.52,0.563" Height="35" Width="104" Click="btnMessage_Click"/>
-        <Button x:Name="btnCart" Content="View Cart" HorizontalAlignment="Left" Margin="258,164,0,0" VerticalAlignment="Top" Width="104" Height="35" Click="btnCart_Click"/>
-        <Button x:Name="btnHist" Content="Purchase History" HorizontalAlignment="Left" Margin="437,164,0,0" VerticalAlignment="Top" Height="35" Width="104" Click="btnHist_Click"/>
-        <Button x:Name="btnBrowse" Content="Browse Store" HorizontalAlignment="Left" Margin="330,92,0,0" VerticalAlignment="Top" Width="143" Height="36" Click="btnBrowse_Click"/>
+        <Button x:Name="btnCart" Content="View Cart" HorizontalAlignment="Left" Margin="437,164,0,0" VerticalAlignment="Top" Width="104" Height="35" Click="btnCart_Click"/>
+        <Button x:Name="btnHist" Content="Purchase History" HorizontalAlignment="Left" Margin="264,247,0,0" VerticalAlignment="Top" Height="35" Width="104" Click="btnHist_Click"/>
+        <Button x:Name="btnBrowse" Content="Browse Store" HorizontalAlignment="Left" Margin="264,164,0,0" VerticalAlignment="Top" Width="104" Height="35" Click="btnBrowse_Click"/>
     </Grid>
 </Window>
