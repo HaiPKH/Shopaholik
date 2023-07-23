@@ -40,7 +40,9 @@ namespace ShopaholikWPF.Windows
 
         private void btnHist_Click(object sender, RoutedEventArgs e)
         {
-
+            PurchaseHistory purchaseHistory = new PurchaseHistory();
+            Application.Current.MainWindow.Content = purchaseHistory.Content;
+            Application.Current.MainWindow.Title = "Purchase History";
         }
 
         private void btnGuestLogout_Click(object sender, RoutedEventArgs e)

@@ -21,11 +21,51 @@ namespace ShopaholikWPF.Windows
     public partial class Income : Window
     {
         ShopaholikContext context = new ShopaholikContext();
-        List<Invoice> invoices;
         public Income()
         {
             InitializeComponent();
-            invoices =  context.Invoices.ToList();
+        }
+
+        private void LoadIncome()
+        {
+            decimal totalPrice = 0;
+            ComboBoxItem typeItem = (ComboBoxItem)cboGroup.SelectedItem;
+            if (typeItem != null)
+            {
+                switch (typeItem.Content.ToString())
+                {
+                    case "Day":
+                        lvInvoices.ItemsSource = context.Invoices.GroupBy(x => x.TransactionTime.Date).Select(g => new { Time = g.Key.Date, Revenue = g.Sum(x => x.Price) }).ToList();
+                        break;
+                    case "Month":
+                        lvInvoices.ItemsSource = context.Invoices.GroupBy(x => new { x.TransactionTime.Month, x.TransactionTime.Year}).Select(g => new { Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Revenue = g.Sum(x => x.Price) }).ToList();
+                        break;
+                    case "Year":
+                        lvInvoices.ItemsSource = context.Invoices.GroupBy(x => x.TransactionTime.Year).Select(g => new { Time = g.Key, Revenue = g.Sum(x => x.Price) }).ToList();
+                        break;
+                }
+            }
+            else
+            {
+                lvInvoices.ItemsSource =  context.Invoices.ToList();
+            }
+            foreach (Invoice inv in context.Invoices.ToList())
+            {
+                totalPrice += inv.Price;
+            }
+            lbTotalIncome.Content = totalPrice;
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            AdminMenu adm = new AdminMenu();
+            Application.Current.MainWindow.Content = adm.Content;
+            Application.Current.MainWindow.Title = "Admin Menu";
+        }
+
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            LoadIncome();
         }
     }
 }

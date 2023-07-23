@@ -44,16 +44,93 @@ namespace ShopaholikWPF.Windows
 
                 {
                     ShopaholikContext context = new ShopaholikContext();
-                    lvInvoices.ItemsSource = context.Invoices.ToList();
+                    //lvInvoices.ItemsSource = context.Invoices.ToList();
+                    LoadInvoices(int.Parse(txtRecordsNum.Text));
                     lvInvoices.Items.Refresh();
                 }));
             });
-            LoadInvoices();
+            try
+            {
+                LoadInvoices(int.Parse(txtRecordsNum.Text));
+            }catch (Exception ex)
+            {
+                ShopaholikContext context = new ShopaholikContext();
+                lvInvoices.ItemsSource = context.Invoices.ToList();
+            }
+
+
         }
-        private void LoadInvoices()
+        private void LoadInvoices(int recordsNum)
         {
-            ShopaholikContext context = new ShopaholikContext();
-            lvInvoices.ItemsSource = context.Invoices.ToList();
+            try
+            {
+                ShopaholikContext context = new ShopaholikContext();
+                ComboBoxItem typeItem = (ComboBoxItem)cboOrder.SelectedItem;
+                string order = "";
+                if (typeItem != null)
+                {
+                    if (recordsNum > 0 && typeItem.Content.ToString() != String.Empty)
+                    {
+                        order = typeItem.Content.ToString();
+                        List<Invoice> list = context.Invoices.Take(recordsNum).ToList();
+                        switch (order)
+                        {
+                            case "Date Ascending":
+                                lvInvoices.ItemsSource = list.OrderBy(l => l.TransactionTime).ToList();
+                                break;
+                            case "Date Descending":
+                                lvInvoices.ItemsSource = list.OrderByDescending(l => l.TransactionTime).ToList();
+                                break;
+                            case "Price Ascending":
+                                lvInvoices.ItemsSource = list.OrderBy(l => l.Price).ToList();
+                                break;
+                            case "Price Descending":
+                                lvInvoices.ItemsSource = list.OrderByDescending(l => l.Price).ToList();
+                                break;
+                            default:
+                                MessageBox.Show("default");
+                                lvInvoices.ItemsSource = list.ToList();
+                                break;
+                        }
+                    }
+                    else if (recordsNum > 0 && typeItem.Content.ToString().Equals(String.Empty))
+                    {
+                        lvInvoices.ItemsSource = context.Invoices.Take(recordsNum).ToList();
+                    }
+                    else if (recordsNum <= 0 && typeItem.Content.ToString() != String.Empty)
+                    {
+                        order = typeItem.Content.ToString();
+                        List<Invoice> list = context.Invoices.ToList();
+                        switch (order)
+                        {
+                            case "Date Ascending":
+                                lvInvoices.ItemsSource = list.OrderBy(l => l.TransactionTime).ToList();
+                                break;
+                            case "Date Descending":
+                                lvInvoices.ItemsSource = list.OrderByDescending(l => l.TransactionTime).ToList();
+                                break;
+                            case "Price Ascending":
+                                lvInvoices.ItemsSource = list.OrderBy(l => l.Price).ToList();
+                                break;
+                            case "Price Descending":
+                                lvInvoices.ItemsSource = list.OrderByDescending(l => l.Price).ToList();
+                                break;
+                            default:
+                                MessageBox.Show("default");
+                                lvInvoices.ItemsSource = list.ToList();
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    lvInvoices.ItemsSource = context.Invoices.Take(recordsNum).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error");
+            }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -64,7 +141,15 @@ namespace ShopaholikWPF.Windows
             context.SaveChanges();
             lvInvoices.Items.Refresh();
             lvItems.ItemsSource = null;
-            LoadInvoices();
+            if(txtRecordsNum.Text != String.Empty)
+            {
+            LoadInvoices(int.Parse(txtRecordsNum.Text));
+            }
+            else
+            {
+                LoadInvoices(context.Invoices.ToList().Count());
+            }
+
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -84,6 +169,19 @@ namespace ShopaholikWPF.Windows
                 lvItems.ItemsSource = items;
             }
 
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                LoadInvoices(int.Parse(txtRecordsNum.Text));
+            }
+            catch (Exception ex)
+            {
+                ShopaholikContext context = new ShopaholikContext();
+                LoadInvoices(context.Invoices.ToList().Count());
+            }
         }
     }
 }

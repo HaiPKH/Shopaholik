@@ -91,7 +91,8 @@ namespace ShopaholikWPF
 
         private void btnAdminCreate_Click(object sender, RoutedEventArgs e)
         {
-
+            CreateAdmin cad = new CreateAdmin();
+            cad.Show();
         }
 
         private void btnGuestCreate_Click(object sender, RoutedEventArgs e)

@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShopaholikWPF.Windows"
         mc:Ignorable="d"
-        Title="Invoices" Height="450" Width="800">
+        Title="Invoices" Height="459" Width="835">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="524*"/>
+            <ColumnDefinition Width="291*"/>
+        </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal"  
                             HorizontalAlignment="Left" Margin="117,310,0,-43" Width="390">
             <Button x:Name="btnDelete"  Width="80" Content="Delete" 
@@ -14,7 +18,7 @@
             <Button x:Name="btnBack" Content="Back to Menu" Width="80" Height="21" Margin="5,5,5,0"
                             Click="btnBack_Click"/>
         </StackPanel>
-        <ListView Margin="0,0,400,56" Name="lvInvoices" SelectionChanged="lvInvoices_SelectionChanged">
+        <ListView Margin="0,0,109,56" Name="lvInvoices" SelectionChanged="lvInvoices_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Transaction Time" Width="150" 
@@ -27,10 +31,10 @@
             </ListView.View>
         </ListView>
 
-        <Label Content="Showing" HorizontalAlignment="Left" Margin="492,383,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.549"/>
-        <TextBox x:Name="txtRecordsNum" HorizontalAlignment="Left" Margin="553,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Records" HorizontalAlignment="Left" Margin="678,383,0,0" VerticalAlignment="Top"/>
-        <ListView x:Name="lvItems" Margin="400,0,0,56">
+        <Label Content="Showing" HorizontalAlignment="Left" Margin="419,383,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.549"/>
+        <TextBox x:Name="txtRecordsNum" HorizontalAlignment="Left" Margin="480,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63" Grid.ColumnSpan="2"/>
+        <Label Content="Records" HorizontalAlignment="Left" Margin="32,383,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <ListView x:Name="lvItems" Margin="400,0,0,56" Grid.ColumnSpan="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Product Name" Width="150" 
@@ -40,5 +44,13 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Label Content="|Order by&#xD;&#xA;" HorizontalAlignment="Left" Margin="84,383,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.549" Height="26" Grid.Column="1"/>
+        <ComboBox x:Name="cboOrder" HorizontalAlignment="Left" Margin="149,387,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1">
+            <ComboBoxItem Content="Date Ascending"/>
+            <ComboBoxItem Content="Date Descending"/>
+            <ComboBoxItem Content="Price Ascending"/>
+            <ComboBoxItem Content="Price Descending"/>
+        </ComboBox>
+        <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="312,389,0,0" VerticalAlignment="Top" Width="82" Click="btnRefresh_Click"/>
     </Grid>
 </Window>

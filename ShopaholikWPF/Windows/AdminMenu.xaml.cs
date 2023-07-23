@@ -26,6 +26,8 @@ namespace ShopaholikWPF.Windows
 
         private void btnAdminCreate_Click(object sender, RoutedEventArgs e)
         {
+            CreateAdmin cad = new CreateAdmin();
+            cad.Show();
         }
 
         private void btnStock_Click(object sender, RoutedEventArgs e)

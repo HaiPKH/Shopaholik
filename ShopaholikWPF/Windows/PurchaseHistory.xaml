@@ -27,9 +27,9 @@
             </ListView.View>
         </ListView>
 
-        <Label Content="Showing" HorizontalAlignment="Left" Margin="492,383,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.549"/>
-        <TextBox x:Name="txtRecordsNum" HorizontalAlignment="Left" Margin="553,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Records" HorizontalAlignment="Left" Margin="678,383,0,0" VerticalAlignment="Top"/>
+        <Label Content="Showing" HorizontalAlignment="Left" Margin="419,383,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.549"/>
+        <TextBox x:Name="txtRecordsNum" HorizontalAlignment="Left" Margin="480,387,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="63"/>
+        <Label Content="Records" HorizontalAlignment="Left" Margin="556,383,0,0" VerticalAlignment="Top"/>
         <ListView x:Name="lvItems" Margin="400,0,0,56">
             <ListView.View>
                 <GridView>
@@ -40,5 +40,13 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Label Content="|Order by&#xD;&#xA;" HorizontalAlignment="Left" Margin="608,383,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.549" Height="26"/>
+        <ComboBox x:Name="cboOrder" HorizontalAlignment="Left" Margin="670,385,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem Content="Date Ascending"/>
+            <ComboBoxItem Content="Date Descending"/>
+            <ComboBoxItem Content="Price Ascending"/>
+            <ComboBoxItem Content="Price Descending"/>
+        </ComboBox>
+        <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" Margin="312,387,0,0" VerticalAlignment="Top" Width="82" Click="btnRefresh_Click"/>
     </Grid>
 </Window>
