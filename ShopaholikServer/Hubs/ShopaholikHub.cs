@@ -8,7 +8,7 @@ namespace ShopaholikServer.Hubs
     {
         public override Task OnConnectedAsync()
         {
-            MessageBox.Show("Connected", "Wutdehell");
+            //MessageBox.Show("Connected", "Wutdehell");
             return Task.CompletedTask;
         }
 
@@ -16,7 +16,7 @@ namespace ShopaholikServer.Hubs
         {
             try
             {
-                MessageBox.Show("Purchase protocol begin", "Log");
+                //MessageBox.Show("Purchase protocol begin", "Log");
                 ShopaholikContext context = new ShopaholikContext();
                 foreach (CartItem item in cart)
                 {
