@@ -151,9 +151,9 @@ namespace ShopaholikWPF.Windows
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            AdminMenu adm = new AdminMenu();
-            Application.Current.MainWindow.Content = adm.Content;
-            Application.Current.MainWindow.Title = "Admin Menu";
+            GuestMenu gm = new GuestMenu();
+            Application.Current.MainWindow.Content = gm.Content;
+            Application.Current.MainWindow.Title = "Guest Menu";
         }
 
         private void lvInvoices_SelectionChanged(object sender, SelectionChangedEventArgs e)
