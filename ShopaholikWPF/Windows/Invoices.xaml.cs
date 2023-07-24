@@ -45,7 +45,14 @@ namespace ShopaholikWPF.Windows
                 {
                     ShopaholikContext context = new ShopaholikContext();
                     //lvInvoices.ItemsSource = context.Invoices.ToList();
-                    LoadInvoices(int.Parse(txtRecordsNum.Text));
+                    try
+                    {
+                        LoadInvoices(int.Parse(txtRecordsNum.Text));
+                    }
+                    catch (Exception ex)
+                    {
+                        lvInvoices.ItemsSource = context.Invoices.ToList();
+                    }
                     lvInvoices.Items.Refresh();
                 }));
             });
