@@ -43,9 +43,15 @@ namespace ShopaholikWPF.Windows
                 Dispatcher.BeginInvoke((Action)(() =>
 
                 {
-                    ShopaholikContext context = new ShopaholikContext();
-                    lvInvoices.ItemsSource = context.Invoices.Where(invoice => invoice.BuyerName == Application.Current.Properties["Username"] as string).ToList();
-                    lvInvoices.Items.Refresh();
+                    try
+                    {
+                        LoadInvoices(int.Parse(txtRecordsNum.Text));
+                    }
+                    catch (Exception ex)
+                    {
+                        ShopaholikContext context = new ShopaholikContext();
+                        lvInvoices.ItemsSource = context.Invoices.Where(invoice => invoice.BuyerName == Application.Current.Properties["Username"] as string).ToList();
+                    }
                 }));
             });
             try
