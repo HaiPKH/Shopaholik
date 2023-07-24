@@ -97,7 +97,8 @@ namespace ShopaholikWPF
 
         private void btnGuestCreate_Click(object sender, RoutedEventArgs e)
         {
-
+            CreateGuest cgs = new CreateGuest();
+            cgs.Show();
         }
     }
 }
