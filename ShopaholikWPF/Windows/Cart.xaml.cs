@@ -77,6 +77,9 @@ namespace ShopaholikWPF.Windows
                 Application.Current.Properties["CartItems"] = null;
                 cartItems.Clear();
                 lvCartItems.ItemsSource = null;
+                txtPrice.Clear();
+                txtQuantity.Clear();
+                txtProdName.Clear();
                 txtTotalPrice.Text = string.Empty;
             }
             else

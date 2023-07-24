@@ -24,6 +24,7 @@ namespace ShopaholikWPF.Windows
         public Income()
         {
             InitializeComponent();
+            LoadIncome();
         }
 
         private void LoadIncome()
@@ -35,13 +36,16 @@ namespace ShopaholikWPF.Windows
                 switch (typeItem.Content.ToString())
                 {
                     case "Day":
-                        lvInvoices.ItemsSource = context.Invoices.GroupBy(x => x.TransactionTime.Date).Select(g => new { Time = g.Key.Date, Revenue = g.Sum(x => x.Price) }).ToList();
+                        lvInvoices.ItemsSource = context.Invoices.GroupBy(x => x.TransactionTime.Date).Select(g => new { Time = g.Key.Date.ToShortDateString(), Revenue = g.Sum(x => x.Price) }).ToList();
                         break;
                     case "Month":
                         lvInvoices.ItemsSource = context.Invoices.GroupBy(x => new { x.TransactionTime.Month, x.TransactionTime.Year}).Select(g => new { Time = g.Key.Month.ToString() + "/" + g.Key.Year.ToString(), Revenue = g.Sum(x => x.Price) }).ToList();
                         break;
                     case "Year":
                         lvInvoices.ItemsSource = context.Invoices.GroupBy(x => x.TransactionTime.Year).Select(g => new { Time = g.Key, Revenue = g.Sum(x => x.Price) }).ToList();
+                        break;
+                    default:
+                        lvInvoices.ItemsSource = context.Invoices.GroupBy(x => x.TransactionTime.Date).Select(g => new { Time = g.Key.Date.ToShortDateString(), Revenue = g.Sum(x => x.Price) }).ToList();
                         break;
                 }
             }
